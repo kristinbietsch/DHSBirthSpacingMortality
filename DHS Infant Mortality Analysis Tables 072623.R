@@ -15,6 +15,8 @@ library(xlsx)
 library(matrixStats)
 library(scales)
 library(survival)
+library(forcats)
+library(ggplot2)
 options(scipen=999)
 memory.limit(size = 2e6) 
 
@@ -39,6 +41,10 @@ surveys_clean <- surveys %>% select(API_ID, BR) %>% mutate(BR=paste(BR, ".DTA", 
   mutate(CalStatus=case_when(is.na(CalStatus) ~ "Missing",
                              !is.na(CalStatus) ~ CalStatus)) 
 
+# 2014 Study Results
+spacing_2014 <- read.csv("C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Report2014 Tables/Birth Spacing 2014 Report.csv")
+matage_2014 <- read.csv("C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Report2014 Tables/Maternal Age 2014 Report.csv")
+parity_2014 <- read.csv("C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Report2014 Tables/Parity 2014 Report.csv")
 
 
 ############################################################################################################################################
@@ -62,8 +68,8 @@ survey_list <- surveys_clean %>% arrange(Country, StartYear) %>% select(Country,
 header1 <- c("Table 1. List of surveys, by country", "Countries and Survey Years")
 header1 <- data.frame(header1)
 
-write.table(header1, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Survey List DHS Report.csv" ,sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(survey_list, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Survey List DHS Report.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header1, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Survey List DHS Report.csv" ,sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(survey_list, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Survey List DHS Report.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 ############################################################################################################################################
 # Empty Data Frames
@@ -697,9 +703,9 @@ header2 <- data.frame(header2a, header2c, header2b)
 footer2 <- c("Note: Percent distributions are based on weighted cases for all individual countries. The total percent distribution, however, is based on unweighted cases, because the application of standard individual country weights is not meaningful in the pooled sample and analyses using the pooled data are unweighted.")
 footer2 <- data.frame(footer2)
 
-write.table(header2, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Duration of Preceding Birth to Conception Interval.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(birth_intervals_clean_total,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Duration of Preceding Birth to Conception Interval.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
-write.table(footer2,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Duration of Preceding Birth to Conception Interval.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header2, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Duration of Preceding Birth to Conception Interval.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(birth_intervals_clean_total,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Duration of Preceding Birth to Conception Interval.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
+#write.table(footer2,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Duration of Preceding Birth to Conception Interval.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 # # # # # # # # #  # # # # #  # # # #  # # # #  # # # # # # 
 new_birth_agegr <-    as.data.frame(prop.table(table( new_births_clean179$Mothers_age_gr )))  %>% 
@@ -737,9 +743,9 @@ header3 <- data.frame(header3a, header3c, header3b)
 footer3 <- c("Note: Percent distributions are based on weighted cases for all individual countries. The total percent distribution, however, is based on unweighted cases, because the application of standard individual country weights is not meaningful in the pooled sample and analyses using the pooled data are unweighted.")
 footer3 <- data.frame(footer3)
 
-write.table(header3, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Mothers Age at Childs Birth.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(age_at_birth_clean_total,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Mothers Age at Childs Birth.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
-write.table(footer3, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Mothers Age at Childs Birth.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header3, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Mothers Age at Childs Birth.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(age_at_birth_clean_total,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Mothers Age at Childs Birth.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
+#write.table(footer3, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Mothers Age at Childs Birth.csv" ,sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 # # # # # # # # # # # # # # #  # # # # # # # # # # # # # 
 new_birth_bordgr <-    as.data.frame(prop.table(table( new_births_clean179$bord_gr )))  %>% 
@@ -775,9 +781,9 @@ header4 <- data.frame(header4a, header4c, header4b)
 footer4 <- c("Note: Percent distributions are based on weighted cases for all individual countries. The total percent distribution, however, is based on unweighted cases, because the application of standard individual country weights is not meaningful in the pooled sample and analyses using the pooled data are unweighted.")
 footer4 <- data.frame(footer4)
 
-write.table(header4, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Childs Birth Order.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(BirthOrder_table, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Childs Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
-write.table(footer4, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Childs Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header4, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Childs Birth Order.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(BirthOrder_table, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Childs Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
+#write.table(footer4, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by Childs Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 # # # # # # # # # # # # # # #  # # # # # # # # # # # # # 
 birth_riskfull_gr <-    as.data.frame(prop.table(table( new_births_clean179$RiskGr )))  %>% 
@@ -840,9 +846,9 @@ header5 <- data.frame(header5a, header5c, header5b)
 footer5 <- c("Note: Percent distributions are based on weighted cases for all individual countries. The total percent distribution, however, is based on unweighted cases, because the application of standard individual country weights is not meaningful in the pooled sample and analyses using the pooled data are unweighted.")
 footer5 <- data.frame(footer5)
 
-write.table(header5, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(BirthRiskFull_table, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
-write.table(footer5, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header5, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(BirthRiskFull_table, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
+#write.table(footer5, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 
@@ -877,9 +883,9 @@ header6 <- data.frame(header6a, header6c, header6b)
 footer6 <- c("Note: Percent distributions are based on weighted cases for all individual countries. The total percent distribution, however, is based on unweighted cases, because the application of standard individual country weights is not meaningful in the pooled sample and analyses using the pooled data are unweighted.")
 footer6 <- data.frame(footer6)
 
-write.table(header6, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors Summary.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(BirthRiskSimp_table,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors Summary.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
-write.table(footer6,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors Summary.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header6, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors Summary.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(BirthRiskSimp_table,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors Summary.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = TRUE)
+#write.table(footer6,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of Births 0 to 179 Months Prior to Survey by maternal fertility related risk factors Summary.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 ################################################################################################################################
@@ -1043,9 +1049,9 @@ headerA <- data.frame(headerAa, headerAb, headerAd, headerAc, headerAe)
 footerA <- c("Note: Distributions and percentages are based on unweighted cases, since the application of standard individual country weights is not meaningful in the merged sample.")
 footerA <- data.frame(footerA)
 
-write.table(headerA, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of births 0 to 179 months and 0 to 59 months prior to survey by control variables used in multivariate analyses.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(Annex,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of births 0 to 179 months and 0 to 59 months prior to survey by control variables used in multivariate analyses.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footerA,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of births 0 to 179 months and 0 to 59 months prior to survey by control variables used in multivariate analyses.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(headerA, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of births 0 to 179 months and 0 to 59 months prior to survey by control variables used in multivariate analyses.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(Annex,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of births 0 to 179 months and 0 to 59 months prior to survey by control variables used in multivariate analyses.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footerA,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Distribution of births 0 to 179 months and 0 to 59 months prior to survey by control variables used in multivariate analyses.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 ################################################################################################################################
@@ -1384,9 +1390,9 @@ header7 <- data.frame(header7a, header7b, header7c, header7d, header7e, header7f
 footer7 <- c("Note: Age range of analysis:", "ENN (early neonatal), NN (neonatal), PNN (post–neonatal), and Infant Mortality: births in 0 to 59 months prior to survey.", "Child and Under–Five Mortality: births in 0 to 179 months prior to survey.")
 footer7 <- data.frame(footer7)
 
-write.table(header7, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(new_results,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footer7, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header7, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(new_results,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footer7, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 ##########################################################################################################
@@ -1530,9 +1536,9 @@ header8 <- data.frame(header8a, header8b, header8c, header8d, header8e, header8f
 footer8 <- c("Note: Age range of analysis:", "ENN (early neonatal), NN (neonatal), PNN (post–neonatal), and Infant Mortality: births in 0 to 59 months prior to survey.", "Child and Under Five Mortality: births in 0 to 179 months prior to survey.")
 footer8 <- data.frame(footer8)
 
-write.table(header8, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(RiskFull_Results,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footer8, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header8, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(RiskFull_Results,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footer8, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 ##########################################################################################################
@@ -1662,9 +1668,9 @@ header9 <- data.frame(header9a, header9b, header9c, header9d, header9e, header9f
 footer9 <- c("Note: Age range of analysis:", "ENN (early neonatal), NN (neonatal), PNN (post–neonatal), and Infant Mortality: births in 0 to 59 months prior to survey.", "Child and Under Five Mortality: births in 0 to 179 months prior to survey.")
 footer9 <- data.frame(footer9)
 
-write.table(header9, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(RiskSimp_Results, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footer9,"C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header9, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(RiskSimp_Results, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footer9,"C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Unadjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 #############################################################################################
 #############################################################################################
@@ -2125,9 +2131,9 @@ footer10 <- c("Note: In addition to the three key fertility risk behavior charac
 "Child and Under Five Mortality: 0 to 179 months")
 footer10 <- data.frame(footer10)
 
-write.table(header10, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(new_results_Adj,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footer10, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header10, file =  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(new_results_Adj,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footer10, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by Duration of Preceding Birth to Conception Interval Mothers Age at Childs Birth and the Birth Order.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 #######################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -2302,9 +2308,9 @@ footer11 <- c("Note: Ajusted models included the following variables",
               "NC: No cases")
 footer11 <- data.frame(footer11)
 
-write.table(header11, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(RiskFull_Results_Adj,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footer11, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header11, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(RiskFull_Results_Adj,  "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footer11, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 ##########################################################################################################
@@ -2432,7 +2438,7 @@ RiskSimp_Results_Adj <- full_join(exneo_risksimp_exp, neo_risksimp_exp, by="Vari
                          Variable==   "Total N" ~ 6)) %>%
   arrange(order) %>% select(-order)
 
-write.csv(RiskSimp_Results_Adj, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv", row.names = F, na="")
+#write.csv(RiskSimp_Results_Adj, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv", row.names = F, na="")
 
 
 header12a <- c("Table 12. Adjusted relative risk of mortality by the mother's fertility related risk, children born 0 to 179 months prior to the survey, simplified, 84 DHS surveys, 2012 to 2022", "" , "")
@@ -2466,10 +2472,155 @@ footer12 <- c("Note: Ajusted models included the following variables",
               "Child and Under Five Mortality: 0 to 179 months")
 footer12 <- data.frame(footer12)
 
-write.table(header12, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
-write.table(RiskSimp_Results_Adj, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
-write.table(footer12, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(header12, file = "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=FALSE, row.names=FALSE, col.names = FALSE)
+#write.table(RiskSimp_Results_Adj, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
+#write.table(footer12, "C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Adjusted Relative Risk of Mortality by the Mothers Fertility Related Risk Simplified.csv",sep=",",  na="", append=TRUE, row.names=FALSE, col.names = FALSE)
 
 
 ########################################################################################
+# Graphics comparing to 2014 Report
+Interval_Results_Adj_clean <- Interval_Results_Adj  %>%
+  gather(Var, Value, EarlyNeonatal_uRR:Under5_UCI) %>%
+  separate(Var, c("Mortality", "Type"), sep="_") %>%
+  spread(Type, Value) %>%
+  filter(Variable != "Total N" ) %>%
+  mutate(Variable=case_when(Variable=="M12to17" ~ "12-17" ,
+                            Variable== "M18to23"  ~ "18-23" ,
+                            Variable== "M24to29"  ~ "24-29"  ,
+                            Variable==  "M30to35" ~ "30-35" ,
+                            Variable=="M3647 (ref)" ~ "36-47 (ref)",
+                            Variable=="M48to59" ~ "48-59" ,
+                            Variable== "M6to11" ~   "6-11" ,
+                            Variable== "M60to95" ~ "60-95" ,
+                            Variable=="M96P" ~ "96 Plus" ,
+                            Variable=="FirstBorn" ~ "First Birth" ,
+                            Variable== "Under6"   ~ "Under 6" )) %>%
+  mutate(Mortality=case_when(Mortality =="Child"  ~  "Child" ,
+                             Mortality ==   "EarlyNeonatal" ~ "Early Neonatal",
+                             Mortality =="Infant" ~ "Infant" ,
+                             Mortality == "Neonatal" ~  "Neonatal" ,
+                             Mortality == "PostNeonatal"  ~  "Post Neonatal",
+                             Mortality ==  "Under5" ~ "Under Five"    )) %>%
+  mutate(Report="2023 Analysis") %>%
+  rename(aRR=uRR, CILower=LCI, CIUpper=UCI) %>%
+  mutate(aRR=as.numeric(as.character(aRR)),
+         CILower=as.numeric(as.character(CILower)),
+         CIUpper=as.numeric(as.character(CIUpper))) %>%
+  select(Report, Mortality, Variable, aRR, CILower, CIUpper) %>%
+  bind_rows(spacing_2014) %>%
+  mutate(Mortality = fct_relevel(Mortality, c("Early Neonatal",    "Neonatal",   "Post Neonatal" ,  "Infant",    "Child"  ,   "Under Five"  ))) %>%
+  mutate(Variable = fct_relevel(Variable, c( "First Birth" ,     "96 Plus",   "60-95" , "48-59"  ,      "36-47 (ref)",     "30-35" ,       "24-29" ,     "18-23",   "12-17",  "6-11" ,"Under 6" ))) 
 
+     
+
+
+ggplot(Interval_Results_Adj_clean, aes(x=aRR, y=Variable, color=Report,  shape=Report)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin=CILower, xmax=CIUpper), height=.3)  +
+  facet_grid(~ Mortality) +
+  scale_shape_manual(values=c(0, 1)) +
+  scale_x_continuous(breaks = c(0.5, 1, 2, 3, 4), labels=c(0.5, 1, 2, 3, 4) , limits = c(0.5, 4)) +
+  coord_trans(x = "log10") +
+  geom_vline(xintercept = 1) +
+  theme_bw() +
+  labs(y="") +
+  theme(strip.background=element_rect(fill="white"),
+        axis.text=element_text(color = "black"),
+        panel.grid.minor=element_blank())
+
+ggsave("C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Figure 1 Interval Graphic ARR.png", height = 5, width = 13, units = "in")
+
+
+Mothers_age_Results_Adj_clean <- Mothers_age_Results_Adj  %>%
+  gather(Var, Value, EarlyNeonatal_uRR:Under5_UCI) %>%
+  separate(Var, c("Mortality", "Type"), sep="_") %>%
+  spread(Type, Value)  %>%
+  filter(Variable != "Total N" ) %>%
+  mutate(Variable=case_when(Variable== "Age1824 (ref)"  ~ "18-24 (ref)" ,
+                            Variable=="Age2534"  ~ "25-34" ,
+                            Variable== "Age3539" ~ "35-39",
+                            Variable== "Age40P" ~  "40 or More"  ,
+                            Variable=="AgeU18"   ~ "Under 18"  )) %>%
+  mutate(Mortality=case_when(Mortality =="Child"  ~  "Child" ,
+                             Mortality ==   "EarlyNeonatal" ~ "Early Neonatal",
+                             Mortality =="Infant" ~ "Infant" ,
+                             Mortality == "Neonatal" ~  "Neonatal" ,
+                             Mortality == "PostNeonatal"  ~  "Post Neonatal",
+                             Mortality ==  "Under5" ~ "Under Five"    ))  %>%
+  mutate(Report="2023 Analysis") %>%
+  rename(aRR=uRR, CILower=LCI, CIUpper=UCI) %>%
+  mutate(aRR=as.numeric(as.character(aRR)),
+         CILower=as.numeric(as.character(CILower)),
+         CIUpper=as.numeric(as.character(CIUpper))) %>%
+  select(Report, Mortality, Variable, aRR, CILower, CIUpper) %>%
+  bind_rows(matage_2014) %>%
+  mutate(Mortality = fct_relevel(Mortality, c("Early Neonatal",    "Neonatal",   "Post Neonatal" ,  "Infant",    "Child"  ,   "Under Five"  ))) %>%
+  mutate(Variable = fct_relevel(Variable, c("40 or More", "35-39",  "25-34" ,  "18-24 (ref)" , "Under 18" ))) 
+
+
+
+ggplot(Mothers_age_Results_Adj_clean, aes(x=aRR, y=Variable, color=Report,  shape=Report)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin=CILower, xmax=CIUpper), height=.3)  +
+  facet_grid(~ Mortality) +
+  scale_shape_manual(values=c(0, 1)) +
+  scale_x_continuous(breaks = c(0.5, 1, 2, 3), labels=c(0.5, 1, 2, 3) , limits = c(0.5, 3)) +
+  coord_trans(x = "log10") +
+  geom_vline(xintercept = 1) +
+  theme_bw() +
+  labs(y="") +
+  theme(strip.background=element_rect(fill="white"),
+        axis.text=element_text(color = "black"),
+        panel.grid.minor=element_blank())
+
+ggsave("C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Figure 2 Mothers Age Graphic ARR.png", height = 4, width = 13, units = "in")
+
+
+levels(as.factor(matage_2014$Variable))
+levels(as.factor(Mothers_age_Results_Adj$Variable))
+
+
+
+BirthOrder_Results_Adj_clean <- BirthOrder_Results_Adj  %>%
+  gather(Var, Value, EarlyNeonatal_uRR:Under5_UCI) %>%
+  separate(Var, c("Mortality", "Type"), sep="_") %>%
+  spread(Type, Value)  %>%
+  filter(Variable != "Total N" ) %>%
+  mutate(Variable=case_when(Variable== "BO12 (ref)" ~  "1 to 2 (ref)",
+                            Variable==  "BO34"  ~  "3 to 4" ,
+                            Variable==   "BO56"  ~ "5 to 6" ,
+                            Variable==   "BO7P"  ~  "7 or More"    )) %>%
+  mutate(Mortality=case_when(Mortality =="Child"  ~  "Child" ,
+                             Mortality ==   "EarlyNeonatal" ~ "Early Neonatal",
+                             Mortality =="Infant" ~ "Infant" ,
+                             Mortality == "Neonatal" ~  "Neonatal" ,
+                             Mortality == "PostNeonatal"  ~  "Post Neonatal",
+                             Mortality ==  "Under5" ~ "Under Five"    ))  %>%
+  mutate(Report="2023 Analysis") %>%
+  rename(aRR=uRR, CILower=LCI, CIUpper=UCI) %>%
+  mutate(aRR=as.numeric(as.character(aRR)),
+         CILower=as.numeric(as.character(CILower)),
+         CIUpper=as.numeric(as.character(CIUpper))) %>%
+  select(Report, Mortality, Variable, aRR, CILower, CIUpper) %>%
+  bind_rows(parity_2014) %>%
+  mutate(Mortality = fct_relevel(Mortality, c("Early Neonatal",    "Neonatal",   "Post Neonatal" ,  "Infant",    "Child"  ,   "Under Five"  ))) %>%
+  mutate(Variable = fct_relevel(Variable, c( "7 or More" , "5 to 6" , "3 to 4" , "1 to 2 (ref)" ))) 
+
+levels(as.factor(parity_2014$Variable))
+levels(as.factor(BirthOrder_Results_Adj_clean$Variable))
+
+ggplot(BirthOrder_Results_Adj_clean, aes(x=aRR, y=Variable, color=Report,  shape=Report)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin=CILower, xmax=CIUpper), height=.3)  +
+  facet_grid(~ Mortality) +
+  scale_shape_manual(values=c(0, 1)) +
+  scale_x_continuous(breaks = c(0.5, 1, 2), labels=c(0.5, 1, 2) , limits = c(0.5, 2)) +
+  coord_trans(x = "log10") +
+  geom_vline(xintercept = 1) +
+  theme_bw() +
+  labs(y="") +
+  theme(strip.background=element_rect(fill="white"),
+        axis.text=element_text(color = "black"),
+        panel.grid.minor=element_blank())
+
+ggsave("C:/Users/KristinBietsch/files/DHS Data/Birth Spacing Report/Result Tables/Figure 3 Birth Order Graphic ARR.png", height = 4, width = 13, units = "in")
